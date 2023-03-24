@@ -1,27 +1,12 @@
 import './App.scss';
-import React, { useEffect } from 'react';
 import { HashRouter, Link, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import NotesPage from './pages/NotesPage';
-import TogglablePage from './pages/TogglablePage';
+import SlidesPages from './pages/SlidesPages';
 
-const API_KEY = process.env.REACT_APP_API_KEY;
-const API_URL = process.env.REACT_APP_API_URL;
+const user = process.env.REACT_APP_USER;
+const pw = process.env.REACT_APP_PW;
 
 function App() {
-  const [images, setImages] = React.useState([]);
-
-  // Ask the api images
-  useEffect(() => {
-    const options = { headers: { Authorization: API_KEY } };
-    const finalUrl = API_URL + '?query=car';
-    fetch(finalUrl, options)
-      .then((data) => data.json())
-      .then((dataParsed) => {
-        setImages(dataParsed.photos);
-      });
-  }, []);
-
   return (
     <div className='App'>
       <h1>Hola amigos!</h1>
@@ -30,23 +15,17 @@ function App() {
         <div className='links'>
           <Link to='/'>HomePage</Link>
           <br />
-          <Link to='/notes'>NotesPage</Link>
+          <Link to='/slides'>Slides</Link>
           <br />
-          <Link to='/toggles'>TogglablePage</Link>
-          <br />
+          <p>El usuario es:{user}</p>
+          <p>La contraseña es:{pw}</p>
         </div>
 
         <Routes>
           <Route path='/' element={<HomePage></HomePage>}></Route>
-          <Route path='/notes' element={<NotesPage></NotesPage>}></Route>
-          <Route path='/toggles' element={<TogglablePage></TogglablePage>}></Route>
+          <Route path='/slides' element={<SlidesPages></SlidesPages>}></Route>
         </Routes>
       </HashRouter>
-
-      <p>Imágenes:</p>
-      {images.map((image) => (
-        <img key={image.id} src={image.src.small} />
-      ))}
     </div>
   );
 }
